@@ -1,0 +1,74 @@
+[
+    {
+        "label": "torch",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "torch",
+        "description": "torch",
+        "detail": "torch",
+        "documentation": {}
+    },
+    {
+        "label": "torch.nn",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "torch.nn",
+        "description": "torch.nn",
+        "detail": "torch.nn",
+        "documentation": {}
+    },
+    {
+        "label": "SelfAttention",
+        "kind": 6,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "class SelfAttention(nn.Module):\n    def __init__(self, embed_size, heads):\n        super(SelfAttention, self).__init__()\n        self.embed_size = embed_size\n        self.heads = heads\n        self.head_dim = embed_size // heads\n        assert (\n            self.head_dim * heads == embed_size\n        ), \"Embedding size needs to be divisible by heads\"\n        self.values = nn.Linear(embed_size, embed_size)",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "TransformerBlock",
+        "kind": 6,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "class TransformerBlock(nn.Module):\n    def __init__(self, embed_size, heads, dropout, forward_expansion):\n        super(TransformerBlock, self).__init__()\n        self.attention = SelfAttention(embed_size, heads)\n        self.norm1 = nn.LayerNorm(embed_size)\n        self.norm2 = nn.LayerNorm(embed_size)\n        self.feed_forward = nn.Sequential(\n            nn.Linear(embed_size, forward_expansion * embed_size),\n            nn.ReLU(),\n            nn.Linear(forward_expansion * embed_size, embed_size),",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "Encoder",
+        "kind": 6,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "class Encoder(nn.Module):\n    def __init__(\n        self,\n        src_vocab_size,\n        embed_size,\n        num_layers,\n        heads,\n        device,\n        forward_expansion,\n        dropout,",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "DecoderBlock",
+        "kind": 6,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "class DecoderBlock(nn.Module):\n    def __init__(self, embed_size, heads, forward_expansion, dropout, device):\n        super(DecoderBlock, self).__init__()\n        self.norm = nn.LayerNorm(embed_size)\n        self.attention = SelfAttention(embed_size, heads=heads)\n        self.transformer_block = TransformerBlock(\n            embed_size, heads, dropout, forward_expansion\n        )\n        self.dropout = nn.Dropout(dropout)\n    def forward(self, x, value, key, src_mask, trg_mask):",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "Decoder",
+        "kind": 6,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "class Decoder(nn.Module):\n    def __init__(\n        self,\n        trg_vocab_size,\n        embed_size,\n        num_layers,\n        heads,\n        forward_expansion,\n        dropout,\n        device,",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "Transformer",
+        "kind": 6,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "class Transformer(nn.Module):\n    def __init__(\n        self,\n        src_vocab_size,\n        trg_vocab_size,\n        src_pad_idx,\n        trg_pad_idx,\n        embed_size=512,\n        num_layers=6,\n        forward_expansion=4,",
+        "detail": "main",
+        "documentation": {}
+    }
+]
